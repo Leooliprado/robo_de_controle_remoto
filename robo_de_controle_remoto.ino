@@ -4,21 +4,30 @@
   Instagram: arduino2.0tecnologico
 
   Data de inicio do projeto 26/2/2024
-  Data de término do projeto  06/4/2024
+  Data de término do projeto  17/4/2024
 */
 //*************INCLUSÃO DA BIBLIOTECA
 #include "BluetoothSerial.h"
 //*************DEFINIÇÕES
-#define FORWARD 'F'
-#define BACKWARD 'B'
-#define LEFT 'L'
-#define RIGHT 'R'
+#define FRENTE 'F'
+#define TRAS 'B'
+#define ESQUERDA 'L'
+#define DIREITA 'R'
 #define CIRCLE 'C'
-#define CROSS 'X'
-#define TRIANGLE 'T'
-#define SQUARE 'S'
-#define START 'A'
-#define PAUSE 'P'
+#define VELOCIDADE0 '0'
+#define VELOCIDADE1 '1'
+#define VELOCIDADE2 '2'
+#define VELOCIDADE3 '3'
+#define VELOCIDADE4 '4'
+#define VELOCIDADE5 '5'
+#define VELOCIDADE6 '6'
+#define VELOCIDADE7 '7'
+#define VELOCIDADE8 '8'
+#define VELOCIDADE9 '9'
+#define VELOCIDADEq 'q'
+#define FAROL1 'W'
+#define FAROL0 'w'
+#define PAUSE 'S'
 
 #define roda_da_direita_1 2    //D2
 #define roda_da_ESQUERDA_1 4   //D4
@@ -55,56 +64,36 @@ void loop() {
 
     switch (command) {
 
-      case FORWARD:
+      case FRENTE:
         Serial.println("FRENTE");
         digitalWrite(roda_da_ESQUERDA_2, HIGH); //******* FRENTE
         digitalWrite(roda_da_direita_1, HIGH);
 
         digitalWrite(roda_da_direita_2, LOW);
         digitalWrite(roda_da_ESQUERDA_1, LOW);
-        delay(500);
-        digitalWrite(roda_da_ESQUERDA_2, LOW);
-        digitalWrite(roda_da_direita_1, LOW);
-        digitalWrite(roda_da_direita_2, LOW);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
         break;
-      case BACKWARD:
+      case TRAS:
         Serial.println("TRÁS");
         digitalWrite(roda_da_ESQUERDA_2, LOW);  //******* TRAS
         digitalWrite(roda_da_direita_1, LOW);
 
         digitalWrite(roda_da_direita_2, HIGH);
         digitalWrite(roda_da_ESQUERDA_1, HIGH);
-        delay(500);
-        digitalWrite(roda_da_ESQUERDA_2, LOW);
-        digitalWrite(roda_da_direita_1, LOW);
-        digitalWrite(roda_da_direita_2, LOW);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
         break;
-      case LEFT:
+      case ESQUERDA:
         Serial.println("ESQUERDA");
         digitalWrite(roda_da_ESQUERDA_2, HIGH);  //*******ESQUERDA
         digitalWrite(roda_da_direita_1, LOW);
 
         digitalWrite(roda_da_direita_2, LOW);
         digitalWrite(roda_da_ESQUERDA_1, HIGH);
-        delay(250);
-        digitalWrite(roda_da_ESQUERDA_2, LOW);
-        digitalWrite(roda_da_direita_1, LOW);
-        digitalWrite(roda_da_direita_2, LOW);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
         break;
-      case RIGHT:
+      case DIREITA:
         Serial.println("DIREITA");
         digitalWrite(roda_da_ESQUERDA_2, LOW);  //*******DIREITA
         digitalWrite(roda_da_direita_1, HIGH);
 
         digitalWrite(roda_da_direita_2, HIGH);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
-        delay(250);
-        digitalWrite(roda_da_ESQUERDA_2, LOW);
-        digitalWrite(roda_da_direita_1, LOW);
-        digitalWrite(roda_da_direita_2, LOW);
         digitalWrite(roda_da_ESQUERDA_1, LOW);
         break;
       case CIRCLE:
@@ -114,47 +103,58 @@ void loop() {
 
         digitalWrite(roda_da_direita_2, HIGH);
         digitalWrite(roda_da_ESQUERDA_1, LOW);
-        delay(125);
-        digitalWrite(roda_da_ESQUERDA_2, LOW);
-        digitalWrite(roda_da_direita_1, LOW);
-        digitalWrite(roda_da_direita_2, LOW);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
         break;
-      case CROSS:
-        Serial.println("CRUZAMENTO");
-        velocidade_motor += 20;
-
-        if (velocidade_motor > 255) {
-          velocidade_motor = 100;
-        }
-
+      case VELOCIDADE0:
+        velocidade_motor = 0;
         analogWrite(velocidade, velocidade_motor);
         break;
-      case TRIANGLE:
-        Serial.println("TRIÂNGULO");
-        digitalWrite(lede_1, !digitalRead(lede_1));
-        digitalWrite(lede_2, !digitalRead(lede_2));
+      case VELOCIDADE1:
+        velocidade_motor = 60;
+        analogWrite(velocidade, velocidade_motor);
         break;
-      case SQUARE:
-        Serial.println("QUADRADO ESQUERDA");
-        digitalWrite(roda_da_ESQUERDA_2, HIGH);  //*******ESQUERDA
-        digitalWrite(roda_da_direita_1, LOW);
-
-        digitalWrite(roda_da_direita_2, LOW);
-        digitalWrite(roda_da_ESQUERDA_1, HIGH);
-        delay(125);
-        digitalWrite(roda_da_ESQUERDA_2, LOW);
-        digitalWrite(roda_da_direita_1, LOW);
-        digitalWrite(roda_da_direita_2, LOW);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
+      case VELOCIDADE2:
+        velocidade_motor = 80;
+        analogWrite(velocidade, velocidade_motor);
         break;
-      case START:
-        Serial.println("INICIAR");
-        digitalWrite(roda_da_ESQUERDA_2, HIGH);  //******* INICIAR
-        digitalWrite(roda_da_direita_1, HIGH);
-
-        digitalWrite(roda_da_direita_2, LOW);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
+      case VELOCIDADE3:
+        velocidade_motor = 90;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case VELOCIDADE4:
+        velocidade_motor = 110;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case VELOCIDADE5:
+        velocidade_motor = 130;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case VELOCIDADE6:
+        velocidade_motor = 150;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case VELOCIDADE7:
+        velocidade_motor = 170;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case VELOCIDADE8:
+        velocidade_motor = 190;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case VELOCIDADE9:
+        velocidade_motor = 210;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case VELOCIDADEq:
+        velocidade_motor = 250;
+        analogWrite(velocidade, velocidade_motor);
+        break;
+      case FAROL1:
+        digitalWrite(lede_1, HIGH);
+        digitalWrite(lede_2, HIGH);
+        break;
+      case FAROL0:
+        digitalWrite(lede_1, LOW);
+        digitalWrite(lede_2, LOW);
         break;
       case PAUSE:
         Serial.println("PAUSAR");
