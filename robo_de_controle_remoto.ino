@@ -4,7 +4,7 @@
   Instagram: arduino2.0tecnologico
 
   Data de inicio do projeto 26/2/2024
-  Data de término do projeto  17/4/2024
+  Data de término do projeto  20/4/2024
 */
 //*************INCLUSÃO DA BIBLIOTECA
 #include "BluetoothSerial.h"
@@ -13,7 +13,6 @@
 #define TRAS 'B'
 #define ESQUERDA 'L'
 #define DIREITA 'R'
-#define CIRCLE 'C'
 #define VELOCIDADE0 '0'
 #define VELOCIDADE1 '1'
 #define VELOCIDADE2 '2'
@@ -27,6 +26,10 @@
 #define VELOCIDADEq 'q'
 #define FAROL1 'W'
 #define FAROL0 'w'
+#define FAROLTRAS1 'U'
+#define FAROLTRAS0 'u'
+#define ALERTA1 'X'
+#define ALERTA0 'x'
 #define PAUSE 'S'
 
 #define roda_da_direita_1 2    //D2
@@ -36,10 +39,13 @@
 
 #define lede_1 21
 #define lede_2 22
+#define lede_tras 23
 
 #define velocidade 32
 
-int velocidade_motor = 120;
+int velocidade_motor = 250;
+
+bool alertaAtivado = false;
 
 BluetoothSerial SerialBT;
 
@@ -53,6 +59,7 @@ void setup() {
   pinMode(roda_da_ESQUERDA_2, OUTPUT);  // Pinagem do motor
   pinMode(lede_1, OUTPUT);
   pinMode(lede_2, OUTPUT);
+  pinMode(lede_tras, OUTPUT);
   pinMode(velocidade, OUTPUT);
 
   analogWrite(velocidade, velocidade_motor);
@@ -66,7 +73,7 @@ void loop() {
 
       case FRENTE:
         Serial.println("FRENTE");
-        digitalWrite(roda_da_ESQUERDA_2, HIGH); //******* FRENTE
+        digitalWrite(roda_da_ESQUERDA_2, HIGH);  //******* FRENTE
         digitalWrite(roda_da_direita_1, HIGH);
 
         digitalWrite(roda_da_direita_2, LOW);
@@ -90,14 +97,6 @@ void loop() {
         break;
       case DIREITA:
         Serial.println("DIREITA");
-        digitalWrite(roda_da_ESQUERDA_2, LOW);  //*******DIREITA
-        digitalWrite(roda_da_direita_1, HIGH);
-
-        digitalWrite(roda_da_direita_2, HIGH);
-        digitalWrite(roda_da_ESQUERDA_1, LOW);
-        break;
-      case CIRCLE:
-        Serial.println("CÍRCULO DIREITA");
         digitalWrite(roda_da_ESQUERDA_2, LOW);  //*******DIREITA
         digitalWrite(roda_da_direita_1, HIGH);
 
@@ -156,6 +155,21 @@ void loop() {
         digitalWrite(lede_1, LOW);
         digitalWrite(lede_2, LOW);
         break;
+      case FAROLTRAS1:
+        digitalWrite(lede_tras, HIGH);
+        break;
+      case FAROLTRAS0:
+        digitalWrite(lede_tras, LOW);
+        break;
+      case ALERTA1:
+        alertaAtivado = true;
+        break;
+      case ALERTA0:
+        alertaAtivado = false;
+        digitalWrite(lede_1, LOW);
+        digitalWrite(lede_2, LOW);
+        digitalWrite(lede_tras, LOW);
+        break;
       case PAUSE:
         Serial.println("PAUSAR");
         digitalWrite(roda_da_ESQUERDA_2, LOW);  //******* PAUSAR
@@ -169,5 +183,15 @@ void loop() {
         // Comando inválido recebido
         break;
     }
+  }
+  if (alertaAtivado) {
+    digitalWrite(lede_tras, HIGH);
+    digitalWrite(lede_1, HIGH);
+    digitalWrite(lede_2, LOW);
+    delay(100);
+    digitalWrite(lede_2, HIGH);
+    digitalWrite(lede_1, LOW);
+    digitalWrite(lede_tras, LOW);
+    delay(100);
   }
 }
